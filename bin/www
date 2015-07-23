@@ -104,9 +104,9 @@ function onListening() {
   debug('client connected');
 
   socket.on( 'message', function( message ){
-    switch( message ){
+    switch( JSON.parse( message ).text ){
       case 'ping':
-        var response = 'pong';
+        var response = JSON.stringify( { text: 'pong' } );
         debug( message + ' : ' + response );
         socket.send( response );
         

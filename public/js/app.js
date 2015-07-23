@@ -10,14 +10,14 @@
 			});
 			//callback on message
 			this.socket.on( 'message', function callback( message ){
-				me.onMessage( message ); 
+				me.onMessage( JSON.parse( message ) ); 
 			});
 		},
 		onOpen: function(){
-			this.socket.send( 'ping' );
+			this.socket.send( JSON.stringify( { text: 'ping' } ) );
 		},
 		onMessage: function( message ){
-			document.getElementById( 'incomming-message' ).innerHTML = message;
+			document.getElementById( 'incomming-message' ).innerHTML = message.text;
 		}
 	};
 	app.boot();
