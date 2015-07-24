@@ -3,9 +3,9 @@
 		socket: null,
 		boot: function(){
 			var me = this;
-			this.socket = io.Socket();//connect w/localhost:3000
+			this.socket = io();//connect w/localhost:3000
 			//callback on open
-			this.socket.on( 'open', function(){
+			this.socket.on( 'connect', function(){
 				me.onOpen();
 			});
 			//callback on message
@@ -21,4 +21,4 @@
 		}
 	};
 	app.boot();
-})( eio );
+})( io );
