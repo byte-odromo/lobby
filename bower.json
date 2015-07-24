@@ -1,0 +1,8 @@
+{
+  "name": "lobby",
+  "version": "0.0.1",
+  "dependencies": {
+    "engine.io": "latest"
+  },
+  "appPath": "public/js/libs"
+}
