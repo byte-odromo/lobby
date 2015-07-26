@@ -106,33 +106,8 @@ app.use(function(err, req, res, next) {
     });
 });
 
-// Socket
-var socket = require('socket.io')(server);
+// Init the sockets
+var socket = require('./core/socket')(server, debug);
 
-socket.on('connection', onConnection);
-
-function onConnection(socket) {
-    debug('client connected');
-
-    socket.on('message', function(message) {
-        switch (JSON.parse(message).text) {
-            case 'ping':
-                var response = JSON.stringify({
-                    text: 'pong'
-                });
-                debug(message + ' : ' + response);
-                socket.send(response);
-
-                break;
-            default:
-                debug('unknown message: ' + message);
-        }
-    });
-
-    socket.on('close', function() {
-        debug('socket connection closed');
-    });
-
-};
 
 module.exports = app;
