@@ -9,7 +9,7 @@ var indexController = function(req, res, next) {
 	    	text += possible.charAt(Math.floor(Math.random() * possible.length));
 	    }
 	    return text;
-	}
+	};
 
 	res.redirect('/screen/'+generateHash());
 };
