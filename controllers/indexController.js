@@ -1,6 +1,6 @@
 // screenController
 var indexController = function(req, res, next) {
-	
+	// TODO: move this to utils.js
 	var generateHash = function() {
 	    var text = "";
 	    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -9,9 +9,10 @@ var indexController = function(req, res, next) {
 	    	text += possible.charAt(Math.floor(Math.random() * possible.length));
 	    }
 	    return text;
-	}
+	};
 
-	res.redirect('/screen/'+generateHash());
+	var hash = generateHash();
+	res.redirect('/screen/'+hash);
 };
 
 module.exports = indexController;
