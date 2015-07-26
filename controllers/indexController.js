@@ -12,7 +12,6 @@ var indexController = function(req, res, next) {
 	};
 
 	var hash = generateHash();
-
 	res.redirect('/screen/'+hash);
 };
 

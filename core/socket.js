@@ -1,7 +1,9 @@
 // Socket
-
-var socket = function(server, debug) {
-	var socket = require('socket.io')(server);
+var socket = null;
+var debug = null;
+var init = function(server, debugProvider ) {
+	socket = require('socket.io')(server);
+    debug = debugProvider;
 
     socket.on('connection', onConnection);
 
@@ -29,5 +31,18 @@ var socket = function(server, debug) {
 
     };
 }
+var test = function(){
+    if( socket ){
+        var response = JSON.stringify({
+            text: 'POW!'
+        });
+        socket.send(response);
+        debug(response);
+    }
+    
+}
 
-module.exports = socket;
+module.exports = {
+    init: init,
+    test: test
+};

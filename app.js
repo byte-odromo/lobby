@@ -107,7 +107,8 @@ app.use(function(err, req, res, next) {
 });
 
 // Init the sockets
-var socket = require('./core/socket')(server, debug);
+var socket = require('./core/socket');
+socket.init(server, debug);
 
 
 module.exports = app;
