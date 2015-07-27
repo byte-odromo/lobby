@@ -7,6 +7,8 @@ module.exports = function() {
 
     // Config
     app.use('/', routes);
+    app.set('views', __dirname + '/views');
+    app.engine('html', require('ejs').renderFile);
 
     http.listen(3000, function() {
         console.log('listen');

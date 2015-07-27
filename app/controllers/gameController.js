@@ -1,5 +1,5 @@
 var gameController = function(req, res, next) {
-	res.sendFile(__dirname+'/views/game.html');
+	res.render('game.html');
 };
 
 module.exports = gameController;
