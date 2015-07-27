@@ -6,7 +6,6 @@ var io = require('socket.io')(http);
 var generateHash = function() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
     for( var i=0; i < 5; i++ ) {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
@@ -30,14 +29,20 @@ io.on('connection', function(socket) {
         console.log('----user disconnected----');
     });
 
-    socket.on('joinRoom', function(id) {
-        socket.join(id);
-        socket.room = id;
+    socket.on('joinRoom', function(guess) {
+        socket.join(guess.id);
+        socket.room = guess.id;
+        socket.player = guess.player;
+
+        // emit to all, inlude the client
+        // io.sockets.to(socket.room).emit('game', 'Nuevo player conectado');
+        // emit to all, exlude the client
+        socket.broadcast.to(socket.room).emit('game', 'Nuevo player conectado');
     });
 
-    socket.on('chat', function(msg) {
+    socket.on('game', function(msg) {
         console.log('mgs: ', msg);
-        io.sockets.to(socket.room).emit('chat', msg);
+        io.sockets.to(socket.room).emit('game', msg);
     });
 
 });

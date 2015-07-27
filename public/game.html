@@ -7,17 +7,12 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io();
+    var roomId = window.location.pathname.split('/')[2];
 
-    socket.emit('joinRoom', window.location.hash);
+    socket.emit('joinRoom', roomId);
 
-    $('form').submit(function(){
-      socket.emit('chat', $('#m').val());
-      $('#m').val('');
-      return false;
-    });
-
-    socket.on('chat', function(msg){
-      $('#messages').append($('<li>').text(msg));
+    socket.on('game', function(msg){
+      console.log(msg);
     });
 
   </script>
