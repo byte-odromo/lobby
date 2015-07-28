@@ -4,7 +4,13 @@ module.exports = function() {
     var http = require('http').Server(app);
     var io = require('socket.io')(http);
     var routes = require('./routes');
-    var socket = require('./socket')(io);
+    var socket = require('./socket')(app, io);
+    var EventEmitter = require('events').EventEmitter;
+    app.events = new EventEmitter;
+    try{
+        var game = require('./game')( app );
+    }catch( e ){};
+    
 
     // Config
     app.use('/', routes);
@@ -13,6 +19,6 @@ module.exports = function() {
     app.use(express.static('public'));
 
     http.listen(3000, function() {
-        console.log('listen');
+        console.log('listening');
     });
 };

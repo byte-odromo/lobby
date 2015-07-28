@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Welcome</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/client.js"></script>
+    <script>
+
+      /*var socket = io();
+      var roomId = window.location.pathname.split('/')[2];
+
+      socket.emit('joinRoom', roomId);
+
+      socket.on('game', function(msg){
+      console.log(msg);
+      });*/
+      app.boot();
+    </script>
+  </head>
+  <body>
+    <h1>Bienvenido al servidor</h1>
+    <h2>Para comenzar elija una opci&oacute;n</h2>
+    <button onClick="app.create();">Iniciar una partida</button>
+    <button disabled="disabled">Unirse a una partida</button>
+    <ul id="roomListContainer">
+      
+    </ul>
+  </body>
+</html>
