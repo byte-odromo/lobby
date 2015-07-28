@@ -12,14 +12,10 @@ module.exports = function(app,io) {
         socket.on( 'createRoom', function( id ){
             var roomId = Math.random();
             socket.join( roomId );
-            //socket.room = roomId;
-            //app.roomList.push( { id: roomId, members: [] } );
             app.roomList[ roomId ] = [];
             app.roomList[ roomId ].push( id );
 
             socket.emit( 'onCreateRoom',  roomId );
-            //io.sockets.to( socket.room ).emit( 'youAreIn',  id );
-            //socket.broadcast.to( socket.room ).emit( 'youAreIn',  id );
             io.sockets.emit( 'onCreateNewRoom', roomId );
         });
 
@@ -37,7 +33,6 @@ module.exports = function(app,io) {
 
         socket.on('joinRoom', function( guess ) {
             socket.join( guess.roomId );
-            //socket.room = guess.roomId;
             app.roomList[ guess.roomId ].push( guess.id );
 
             socket.emit( 'onJoinRoom',  guess.roomId );
@@ -46,5 +41,29 @@ module.exports = function(app,io) {
             // emit to all, exlude the client
             socket.broadcast.to( guess.roomId ).emit('onNewJoinRoom', { id: guess.id });
         });
+
+        socket.on( 'leaveRoom', function( data ){
+            socket.leave( data.roomId );
+            //loop on members of given room
+            for( var i = 0; i < app.roomList[data.roomId].length; i++ ){
+                //found position of member id
+                if( app.roomList[data.roomId][i] == data.userId ){
+                    //remove member from room list
+                    app.roomList[data.roomId].splice( i, 1 );
+                    //remove room if its empty
+                    if( app.roomList[data.roomId].length == 0 ){
+                        delete app.roomList[data.roomId];
+                    }
+                    break;
+                }
+            }
+
+            if( !app.roomList[data.roomId] ){
+                //update removed room
+                io.sockets.emit( 'onCloseRoom', data.userId );
+            }
+            socket.emit( 'onLeaveRoom',  data.userId );
+            socket.broadcast.to( data.roomId ).emit('onNewLeaveRoom', data.userId );
+        })
     });
 };

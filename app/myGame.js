@@ -1,6 +1,4 @@
 var router = require('./routes');
-/*var express = require('express');
-var app = express();*/
 
 var Game = function( app ){
 	var game = {};
@@ -14,7 +12,7 @@ var Game = function( app ){
 	});*/
 
 	app.events.on('socket.connection', function( socket ){
-		console.log('ON socket.connection');
+		console.log('ON socket.connection FROM GAME');
 	})
 
 	return {

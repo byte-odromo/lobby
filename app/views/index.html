@@ -4,26 +4,36 @@
     <title>Welcome</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/client.js"></script>
+  </head>
+  <style type="text/css">
+    #roomListContainer li {
+      cursor: pointer;
+      text-decoration: underline;
+      color: blue;
+    }
+  </style>
+  <body>
+    <div id="lobbyContainer" style="display:none">
+      <h1>Bienvenido al servidor</h1>
+      <h2>Para comenzar elija una opci&oacute;n</h2>
+      <button onClick="app.create();">Iniciar una partida</button>
+      <br ><br >
+      <div>Unirse a una partidas disponibles</div>
+      <ul id="roomListContainer">
+        
+      </ul>
+    </div>
+    <div id="roomContainer" style="display:none">
+      <h1>Bienvenido a la partida</h1>
+      <h2 id="roomId"></h2>
+      <button onClick="app.leaveRoom()">Abandonar la partida</button>
+      <div>Jugadores en la partida</div>
+      <ul id="userListContainer">
+        
+      </ul>
+    </div>
     <script>
-
-      /*var socket = io();
-      var roomId = window.location.pathname.split('/')[2];
-
-      socket.emit('joinRoom', roomId);
-
-      socket.on('game', function(msg){
-      console.log(msg);
-      });*/
       app.boot();
     </script>
-  </head>
-  <body>
-    <h1>Bienvenido al servidor</h1>
-    <h2>Para comenzar elija una opci&oacute;n</h2>
-    <button onClick="app.create();">Iniciar una partida</button>
-    <button disabled="disabled">Unirse a una partida</button>
-    <ul id="roomListContainer">
-      
-    </ul>
   </body>
 </html>
