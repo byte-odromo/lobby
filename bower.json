@@ -1,7 +1,0 @@
-{
-  "name": "lobby",
-  "version": "0.0.1",
-  "dependencies": {
-  },
-  "appPath": "public/js/libs"
-}

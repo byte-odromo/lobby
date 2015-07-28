@@ -4,5 +4,5 @@
 npm install;
 
 
-DEBUG=lobby:* npm start
+npm app.js
 ```
