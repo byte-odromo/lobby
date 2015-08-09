@@ -8,6 +8,7 @@ module.exports = function(app,io) {
         console.log('----connection-----');
         
         socket.on('disconnect', function( socket ) {
+            app.events.emit( 'socket.disconnect', { socket: socket } );
             console.log('----user disconnected----');
         });
 
