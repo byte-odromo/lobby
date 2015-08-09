@@ -4,7 +4,7 @@
 npm install;
 
 
-npm app.js
+npm start
 ```
 
 go to http://localhost:3000/test
