@@ -6,15 +6,23 @@ module.exports = function() {
     var routes = require('./routes');
     var socket = require('./socket')(app, io);
     var EventEmitter = require('events').EventEmitter;
+
     app.events = new EventEmitter;
-    try{
+
+    try {
         var game = require('byte-odromo-game')( app, routes );
-    }catch( e ){
+    } catch( e ) {
         console.log('Not game found.');
         console.log(e);
     };
-    
 
+    try {
+        var joystick = require('byte-odromo-joystick')( app, routes );
+    } catch( e ) {
+        console.log('Not joystick found.');
+        console.log(e);
+    };
+    
     // Config
     app.use('/', routes);
     app.set('views', __dirname + '/views');
