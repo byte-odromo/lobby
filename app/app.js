@@ -8,8 +8,11 @@ module.exports = function() {
     var EventEmitter = require('events').EventEmitter;
     app.events = new EventEmitter;
     try{
-        var game = require('./myGame')( app );
-    }catch( e ){};
+        var game = require('byte-odromo-game')( app, routes );
+    }catch( e ){
+        console.log('Not game found.');
+        console.log(e);
+    };
     
 
     // Config
