@@ -25,11 +25,11 @@ module.exports = function(app,io) {
             app.roomList[ roomId ].push( userId );
 
             socket.emit( 'createRoom',  roomId );
-            io.sockets.emit( 'onCreateNewRoom', roomId );
+            io.sockets.emit( 'createNewRoom', roomId );
         });
 
         socket.on('getMembers', function( roomId ){
-            socket.emit( 'onGetMembers', app.roomList[ roomId ] );
+            socket.emit( 'getMembers', app.roomList[ roomId ] );
         });
 
         socket.on('getRooms', function(){
@@ -37,18 +37,18 @@ module.exports = function(app,io) {
             for( var el in app.roomList ){
                 rooms.push( el );
             }
-            socket.emit( 'onGetRooms', rooms );
+            socket.emit( 'getRooms', rooms );
         });
 
         socket.on('joinRoom', function( guess ) {
             socket.join( guess.roomId );
             app.roomList[ guess.roomId ].push( guess.id );
 
-            socket.emit( 'onJoinRoom',  guess.roomId );
+            socket.emit( 'joinRoom',  guess.roomId );
             // emit to all, inlude the client
             // io.sockets.to(socket.room).emit('game', 'Nuevo player conectado');
             // emit to all, exlude the client
-            socket.broadcast.to( guess.roomId ).emit('onNewJoinRoom', { id: guess.id });
+            socket.broadcast.to( guess.roomId ).emit('newJoinRoom', { id: guess.id });
         });
 
         socket.on( 'leaveRoom', function( data ){
@@ -69,10 +69,10 @@ module.exports = function(app,io) {
 
             if( !app.roomList[data.roomId] ){
                 //update removed room
-                io.sockets.emit( 'onCloseRoom', data.userId );
+                io.sockets.emit( 'closeRoom', data.userId );
             }
-            socket.emit( 'onLeaveRoom',  data.userId );
-            socket.broadcast.to( data.roomId ).emit('onNewLeaveRoom', data.userId );
+            socket.emit( 'leaveRoom',  data.userId );
+            socket.broadcast.to( data.roomId ).emit('newLeaveRoom', data.userId );
         })
     });
 };

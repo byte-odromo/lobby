@@ -69,38 +69,38 @@ var app = {
             UI.renderUser( app.id, true );
         });
 
-        this.socket.on( 'onLeaveRoom', function( msg ){
+        this.socket.on( 'leaveRoom', function( msg ){
             UI.showLobby();
             app.socket.emit( 'getRooms' );
         });
 
-        this.socket.on( 'onNewLeaveRoom', function(){
+        this.socket.on( 'newLeaveRoom', function(){
             app.socket.emit( 'getMembers', app.roomId );
         });
 
-        this.socket.on( 'onGetMembers', function( arrMembers ){
+        this.socket.on( 'getMembers', function( arrMembers ){
             UI.renderUsers( arrMembers );
         });
 
-        this.socket.on( 'onCloseRoom', function(){
+        this.socket.on( 'closeRoom', function(){
             app.socket.emit('getRooms');
         });
 
-        this.socket.on( 'onJoinRoom', function( roomId ){
+        this.socket.on( 'joinRoom', function( roomId ){
             app.roomId = roomId;
             UI.showRoom( roomId );
             app.socket.emit( 'getMembers', roomId );
         });
 
-        this.socket.on( 'onNewJoinRoom', function( newPlayer ){
+        this.socket.on( 'newJoinRoom', function( newPlayer ){
             UI.renderNewUser( newPlayer );
         });
 
-        this.socket.on( 'onCreateNewRoom', function( roomId ){
+        this.socket.on( 'createNewRoom', function( roomId ){
             UI.renderRoom( roomId );
         });
 
-        this.socket.on( 'onGetRooms', function( availableRooms ){
+        this.socket.on( 'getRooms', function( availableRooms ){
             UI.renderRoomList( availableRooms );
         });
 
