@@ -3,6 +3,7 @@ var objectMerge = require('object-merge');
 module.exports = function(app,io) {
 	// Socket
     app.roomList = {};
+    //@TODO complete lobby events to be listened by games
     io.on('connection', function( socket ) {
         app.events.emit( 'socket.connection', { socket: socket } );
         console.log('----connection-----');
@@ -10,6 +11,7 @@ module.exports = function(app,io) {
         socket.on('disconnect', function( socket ) {
             app.events.emit( 'socket.disconnect', { socket: socket } );
             console.log('----user disconnected----');
+            console.log(socket);
         });
 
         socket.on( 'createRoom', function( params ){
@@ -19,7 +21,8 @@ module.exports = function(app,io) {
                 roomId: roomId,
                 userId: userId
             };
-            app.events.emit( 'socket.createRoom', { socket: socket, params: objectMerge( params, roomAndUser ) } );
+            var newParams = { socket: socket, params: objectMerge( params, roomAndUser ) };
+            app.events.emit( 'socket.createRoom', newParams );
 
             socket.join( roomId );
             app.roomList[ roomId ] = [];
@@ -42,14 +45,18 @@ module.exports = function(app,io) {
         });
 
         socket.on('joinRoom', function( guess ) {
-            socket.join( guess.roomId );
-            app.roomList[ guess.roomId ].push( guess.id );
+            app.events.emit( 'socket.joinRoom', { socket: socket, params: guess } );
+            //@TODO what happend if room doesn't exist?
+            if( app.roomList[ guess.roomId ] ){
+                socket.join( guess.roomId );
+                app.roomList[ guess.roomId ].push( guess.id );
 
-            socket.emit( 'joinRoom',  guess.roomId );
-            // emit to all, inlude the client
-            // io.sockets.to(socket.room).emit('game', 'Nuevo player conectado');
-            // emit to all, exlude the client
-            socket.broadcast.to( guess.roomId ).emit('newJoinRoom', { id: guess.id });
+                socket.emit( 'joinRoom',  guess.roomId );
+                // emit to all, include the client
+                // io.sockets.to(socket.room).emit('game', 'Nuevo player conectado');
+                // emit to all, exclude the client
+                socket.broadcast.to( guess.roomId ).emit('newJoinRoom', { id: guess.id });
+            }
         });
 
         socket.on( 'leaveRoom', function( data ){

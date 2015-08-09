@@ -47,8 +47,9 @@ var UI = {
         container.appendChild( item );
     }
 }
+
 var app = {
-    socket: io(),
+    socket: io.connect( 'localhost:3000', { 'sync disconnect on unload': true }),
     id: Math.random(),
     roomId: undefined,
     create: function(){
