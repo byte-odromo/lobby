@@ -8,7 +8,7 @@ module.exports = function() {
     var EventEmitter = require('events').EventEmitter;
     app.events = new EventEmitter;
     try{
-        var game = require('./game')( app );
+        var game = require('./myGame')( app );
     }catch( e ){};
     
 
