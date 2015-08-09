@@ -1,11 +1,11 @@
 var UI = {
   showLobby: function(){
-    document.getElementById( 'lobbyContainer' ).style = 'display:block';
-    document.getElementById( 'roomContainer' ).style = 'display:none';
+    document.getElementById( 'lobbyContainer' ).style.display = 'block';
+    document.getElementById( 'roomContainer' ).style.display = 'none';
   },
   showRoom: function(){
-    document.getElementById( 'lobbyContainer' ).style = 'display:none';
-    document.getElementById( 'roomContainer' ).style = 'display:block';
+    document.getElementById( 'lobbyContainer' ).style.display = 'none';
+    document.getElementById( 'roomContainer' ).style.display = 'block';
     document.getElementById( 'roomId' ).innerHTML = app.roomId;
   },
   renderRoomList: function( rooms ){
