@@ -9,11 +9,12 @@ module.exports = function(app,io) {
             console.log('----user disconnected----');
         });
 
-        socket.on( 'createRoom', function( id ){
-            var roomId = Math.random();
+        socket.on( 'createRoom', function( params ){
+            var roomId = params.roomId || Math.random();
+            var userId = params.userId || Math.random();
             socket.join( roomId );
             app.roomList[ roomId ] = [];
-            app.roomList[ roomId ].push( id );
+            app.roomList[ roomId ].push( userId );
 
             socket.emit( 'onCreateRoom',  roomId );
             io.sockets.emit( 'onCreateNewRoom', roomId );
