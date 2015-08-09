@@ -63,7 +63,7 @@ var app = {
     boot: function(){
         UI.showLobby();
 
-        this.socket.on( 'onCreateRoom', function( roomId ){
+        this.socket.on( 'createRoom', function( roomId ){
             app.roomId = roomId;
             UI.showRoom();
             UI.renderUser( app.id, true );

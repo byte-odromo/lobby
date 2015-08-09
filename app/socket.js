@@ -1,8 +1,10 @@
+var objectMerge = require('object-merge');
+
 module.exports = function(app,io) {
 	// Socket
     app.roomList = {};
-    io.on('connection', function(socket) {
-        app.events.emit( 'socket.connection', socket );
+    io.on('connection', function( socket ) {
+        app.events.emit( 'socket.connection', { socket: socket } );
         console.log('----connection-----');
         
         socket.on('disconnect', function( socket ) {
@@ -12,11 +14,17 @@ module.exports = function(app,io) {
         socket.on( 'createRoom', function( params ){
             var roomId = params.roomId || Math.random();
             var userId = params.userId || Math.random();
+            var roomAndUser = {
+                roomId: roomId,
+                userId: userId
+            };
+            app.events.emit( 'socket.createRoom', { socket: socket, params: objectMerge( params, roomAndUser ) } );
+
             socket.join( roomId );
             app.roomList[ roomId ] = [];
             app.roomList[ roomId ].push( userId );
 
-            socket.emit( 'onCreateRoom',  roomId );
+            socket.emit( 'createRoom',  roomId );
             io.sockets.emit( 'onCreateNewRoom', roomId );
         });
 
